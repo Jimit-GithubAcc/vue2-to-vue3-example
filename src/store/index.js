@@ -20,7 +20,6 @@ export default new Vuex.Store({
     async fetchUsers({commit, state}){
       state.isLoading = true;
       const res = await axios.get('https://jsonplaceholder.typicode.com/users')
-      console.log(res.data)
       commit("GET_USERS", res.data)
       state.isLoading = false
     }

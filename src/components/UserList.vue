@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="isLoading">
-        <h1>Loading...</h1>
+        <h1 class="text-3xl font-bold">Loading...</h1>
     </div>
     <div class="overflow-x-auto relative" v-else>
       <table class="w-5/6 ml-auto mr-auto text-sm text-left text-gray-500 dark:text-gray-400">
@@ -19,7 +19,7 @@
           <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
             <td class="py-4 px-6">{{user.name}}</td>
             <td class="py-4 px-6">{{user.username}}</td>
-            <td class="py-4 px-6">{{user.email}}</td>
+            <td class="py-4 px-6">{{user.email | setEmail}}</td>
             <td class="py-4 px-6">{{user.company.name}}</td>
           </tr>
         </tbody>
@@ -32,6 +32,13 @@
 export default {
   name: "UserList",
   props: ["getAllUsers", 'isLoading'],
+  filters:{
+    setEmail(value){
+        if(!value) return;
+        value = value.toString();
+        return value.charAt(0).toLowerCase() + value.slice(1)
+    }
+  }
 };
 </script>
 
