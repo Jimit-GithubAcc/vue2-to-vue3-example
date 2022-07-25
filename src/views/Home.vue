@@ -6,29 +6,39 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { onMounted, computed } from 'vue'
+import { mapActions, useStore } from 'vuex'
 import UserList from '../components/UserList.vue'
 
 export default {
   name: 'Home',
   components: {
     UserList
-    
   },
-  data() {
-    return {
+  setup() {
+    const store = useStore()
 
+    const getAllUsers = computed(() => store.getters.getAllUsers)
+    const isLoading = computed(() => store.state.isLoading)
+
+    onMounted(() => {
+      store.dispatch("fetchUsers")
+    })
+    return {
+      ...mapActions(["fetchUsers"]),
+      getAllUsers,
+      isLoading
     }
   },
-  computed: {
-    ...mapState(["isLoading"]),
-    ...mapGetters(["getAllUsers"])
-  },
-  methods: {
-    ...mapActions(["fetchUsers"])
-  },
-  mounted() {
-    this.fetchUsers()
-  }
+  // computed: {
+  //   ...mapState(["isLoading"]),
+  //   ...mapGetters(["getAllUsers"])
+  // },
+  // methods: {
+  //   ...mapActions(["fetchUsers"])
+  // },
+  // mounted() {
+  //   this.fetchUsers()
+  // }
 }
 </script>
